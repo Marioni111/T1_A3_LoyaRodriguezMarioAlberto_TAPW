@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="vuelidate.min.js"></script>
+    <script src="validators.min.js"></script>
+</head>
+
+<body>
+
+
+
+    <div id="materias">
+
+
+        <h1>ValidaciÃ³n</h1>
+        <form @submit.prevent="submitForm" autocomplete="off">
+            <div class="form-group">
+                <label for="name">Nombre:</label>
+                <input v-model="form.name" id="name">
+                <p v-if="v.form.name.$invalid">Este campo es requerido</p>
+            </div>
+
+            <br>
+            <div class="form-group">
+                <label for="age">Edad:</label>
+                <input v-model="form.age" id="age">
+                <p v-if="v.form.age.$invalid">Este campo es requerido</p>
+            </div>
+            <div>
+                <button :disabled="$v.form$invalid">Ingresar</button>
+            </div>
+        </form>
+
+
+
+    </div>
+
+
+    <script src="https://unpkg.com/vue@3"></script>
+
+
+    <script>
+        
+        const obj = Vue.createApp({
+            data() {
+                return {
+                    form: {
+                        name: null,
+                        age: null
+                    }
+
+                }
+            },
+            validations: {
+                form: {
+                    name: {
+                        required: validators.required
+                    },
+                    age: {
+                        required: validators.required,
+                        number: validators.integer,
+                        //min: validators.minValue(12),
+                        //max: validators.maxValue(120)
+                        between: validators.between(18, 100)
+                    }
+                }
+            },
+            methods: {
+                validar() {
+                    if (this.$form.name.$invalid) {
+
+                    }
+                }
+
+
+            }
+        }).mount('#materias');
+    </script>
+
+</body>
+
+</html>

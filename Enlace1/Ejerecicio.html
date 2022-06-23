@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .removed {
+            color: gray;
+        }
+
+        .removed label {
+            text-decoration: line-through;
+        }
+    </style>
+
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-6 my-5">
+                <form>
+                    <div class="input-group mb-3">
+                        <input v-bind:type="[showPassword ? 'text' : 'password']" class="form-control" placeholder="Contraseña">
+                        <div class="input-group-append">
+                          <span class="input-group-text" @click="showPassword = !showPassword"><i class="fa" :class="[showPassword ? 'fa-eye' : 'fa-eye-slash']" aria-hidden="true"></i></span>
+                        </div>
+                      </div>
+                </form>
+              </div>
+            </div>
+          </div>
+    </div><!--Primer ejercicio pagina uno-->
+    <br>
+    <hr>
+
+    <div id="app1" class="container">
+        <div class="col-md-8 mx-auto">
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum iste <span class="dots" v-show="!more">...</span>
+                <span class="more" v-show="more">iusto magni voluptas impedit vitae neque aut eaque repudiandae laboriosam in, minima totam animi sunt aliquam? Architecto at esse labore?</span><br/>
+            </p>
+            <a href="#" @click="toggleText" class="btn btn-primary my-3">{{buttonText}}</a>
+        </div>
+    </div><!--Segundo ejercicio pagina uno-->
+
+    <br><hr>
+
+    <div id="app2">
+        <div class="container">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                    <h2> Tip Calculator </h2>
+                    <form>
+                        <div class="form-group">
+                            <label for="name">How much is the total Bill Amount?</label>
+                            <input type="text" class="form-control" id="amount" placeholder="Total Bill Amount" v-model="amount">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">How was the service?</label>
+                            <select name="refer" class="form-control" id="percentage" v-model="percentage">
+                                <option value="30">30% (Exceptional)</option>
+                                <option value="25">25% (More than good)</option>
+                                <option value="20" selected>20% (Good)</option>
+                                <option value="15">15% (It was okay)</option>
+                                <option value="10">10% (Bad)</option>
+                                <option value="5">5% (Terrible)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">How many people are sharing the bill?</label>
+                            <input type="number" class="form-control" id="people" placeholder="Number of people" v-model="people">
+                        </div>
+                    </form>
+                    <div class="alert alert-success" role="alert">
+                        Tip Amount : <strong>{{tip.toFixed(2)}} / person</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--Tercer tutorial pagina-->
+    <br><hr>
+
+    <div class="container">
+        <div id="app3" class="text-center">
+            <img :src="'assets/images/'+images[currentImage]" width="400" height="500"><br/><br/>
+            <button @click="previousImage" class="btn btn-primary" :disabled="currentImage === 0">Anterior</button>
+            <button @click="nextImage" class="btn btn-primary" :disabled="currentImage === (images.length - 1)">Siguiente</button>
+        </div>
+    </div>
+</div>
+<hr><br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div id="app4">
+                <h3>Lista de compras</h3><br/>
+                <input class="form-control" v-model="newItem" name="newItem" placeholder="Añade un Objeto" @keyup.enter="addItem" />
+                <ul class="list-group">
+                    <li class="list-group-item" v-for="item in items" :class="{'removed' : item.checked}">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" v-model="item.checked">
+                            <label class="form-check-label" for="defaultCheck1">
+                              {{item.text}}
+                            </label>
+                          </div>
+                    </li>
+                </ul><br/>
+                <br/><br/>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            showPassword: false,
+        },
+    });
+</script>
+
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app1',
+        data: {
+            more: false,
+        },
+        methods:{
+            toggleText: function(){
+                this.more = !this.more
+            }
+        },
+        computed: {
+            buttonText: function () {
+                return this.more ? 'Mostrar Menos' : 'Mostrar Más';
+            }
+        }
+    });
+</script>
+
+<script type="text/javascript">
+
+    var app = new Vue({
+        el: '#app2',
+        data: {
+            amount: 0,
+            percentage: 20,
+            people: 1
+        },
+        computed: {
+            tip(){
+                this.people = (!isNaN(this.people) && this.people > 0) ? this.people : 1; //Restrict people to not be NaN or 0
+                return this.amount > 0 ? (this.amount * this.percentage / 100) / this.people : 0;  //Calculate Tip if valid bill amount
+            }
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app3',
+        data: {
+            images: ['dog1.jpg', 'dog2.jpg', 'dog3.jpg', 'dog4.jpg'],
+            currentImage : 0
+        },
+        methods:{
+            nextImage: function(e){
+                if(this.currentImage !== (this.images.length -1))
+                    this.currentImage++;
+            },
+
+            previousImage: function(e){
+                if(this.currentImage !== 0)
+                    this.currentImage--;
+            }
+        }
+    });
+</script>
+
+<script>
+    let app = new Vue({
+         el : '#app4',
+         data:{
+             items: [
+                 {text : 'Banana', checked : false},
+                 {text : 'Oranges', checked : false},
+                 {text : 'Mangoes', checked : false},
+             ],
+             newItem: '',
+         },
+         methods: {
+             addItem() {
+                 var text;
+ 
+                 text = this.newItem.trim();
+                 if(text){
+                     this.items.push({text: this.newItem, checked: false});
+                     this.newItem = ''
+                 }
+             }
+         }
+    });
+ </script>
+</html>

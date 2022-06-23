@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicios Enlace 2</title>
+    <link rel="stylesheet" href="css_ej2.css">
+    <link rel="stylesheet" href="css_ej3.css">
+    <link rel="stylesheet" href="css_ej4.css">
+    <link rel="stylesheet" href="css_ej5.css">
+</head>
+<body>
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+        }
+    
+        body{
+            font:15px/1.3 'Open Sans', sans-serif;
+            color: #5e5b64;
+            text-align:center;
+        }
+    
+        a, a:visited {
+            outline:none;
+            color:#389dc1;
+        }
+    
+        a:hover{
+            text-decoration:none;
+        }
+    
+        section, footer, header, aside, nav{
+            display: block;
+        }
+    
+        /*-------------------------
+            The menu
+        --------------------------*/
+    
+        nav{
+            display:inline-block;
+            margin:60px auto 45px;
+            background-color:#5597b4;
+            box-shadow:0 1px 1px #ccc;
+            border-radius:2px;
+        }
+    
+        nav a{
+            display:inline-block;
+            padding: 18px 30px;
+            color:#fff !important;
+            font-weight:bold;
+            font-size:16px;
+            text-decoration:none !important;
+            line-height:1;
+            text-transform: uppercase;
+            background-color:transparent;
+    
+            -webkit-transition:background-color 0.25s;
+            -moz-transition:background-color 0.25s;
+            transition:background-color 0.25s;
+        }
+    
+        nav a:first-child{
+            border-radius:2px 0 0 2px;
+        }
+    
+        nav a:last-child{
+            border-radius:0 2px 2px 0;
+        }
+    
+        nav.home .home,
+        nav.projects .projects,
+        nav.services .services,
+        nav.contact .contact{
+            background-color:#e35885;
+        }
+    
+        p{
+            font-size:22px;
+            font-weight:bold;
+            color:#7d9098;
+        }
+    
+        p b{
+            color:#ffffff;
+            display:inline-block;
+            padding:5px 10px;
+            background-color:#c4d7e0;
+            border-radius:2px;
+            text-transform:uppercase;
+            font-size:18px;
+        }
+        </style>
+    
+    </head>
+    <body>
+    
+    <div id="main">
+        <br>
+        <h1>Ejercicio 1</h1>
+    
+        <!-- The navigation menu will get the value of the "active" variable as a class. -->
+        <!-- To stops the page from jumping when a link is clicked we use the "prevent" modifier (short for preventDefault). -->
+    
+        <nav v-bind:class="active" v-on:click.prevent>
+    
+            <!-- When a link in the menu is clicked, we call the makeActive method, defined in the JavaScript Vue instance. -->
+    
+            <a href="#" class="INICIO" v-on:click="makeActive('INICIO')">INICIO</a>
+            <a href="#" class="PROYECTOS" v-on:click="makeActive('PROYECTOS')">Proyectos</a>
+            <a href="#" class="SERVICIOS" v-on:click="makeActive('SERVICIOS')">Servicios</a>
+            <a href="#" class="CONTACTO" v-on:click="makeActive('CONTACTO')">Contacto</a>
+        </nav>
+    
+         <!-- The mustache expression will be replaced with the value of "active".
+              It will automatically update to reflect any changes. -->
+    
+        <p>Has seleccionado <b>{{active}}</b></p>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.5/vue.min.js"></script>
+    <script>
+    // Creating a new Vue instance and pass in an options object.
+    var demo = new Vue({
+    
+        // A DOM element to mount our view model.
+        el: '#main',
+    
+        // Define properties and give them initial values.
+        data: {
+            active: 'INICIO'
+        },
+    
+        // Functions we will be using.
+        methods: {
+            makeActive: function(item){
+                // When a model is changed, the view will be automatically updated.
+                this.active = item;
+            }
+        }
+    });
+    </script>
+    <!--FIN DEL PRIMER EJERCICIO-->
+    <br>
+    <hr>
+    <br><br>
+    <h1>Ejercicio 2</h1>
+    
+     <!--INICIO DEL SEGUNDO EJERCICIO-->
+    <div id="main2" v-cloak v-on:click="hideTooltip">
+
+        <!-- This is the tooltip. 
+             v-on:clock.stop is an event handler for clicks, with a modifier that stops event propagation.
+             v-if makes sure the tooltip is shown only when the "showtooltip" variable is truthful -->
+    
+        <div class="tooltip" v-on:click.stop v-if="show_tooltip">
+    
+            <!-- v-model binds the contents of the text field with the "text_content" model.
+             Any changes to the text field will automatically update the value, and
+             all other bindings on the page that depend on it.  -->
+    
+            <input type="text" v-model="text_content" />
+        </div>
+    
+        <!-- When the paragraph is clicked, call the "toggleTooltip" method and stop event propagation. -->
+    
+        <!-- The mustache expression will be replaced with the value of "text_content".
+             It will automatically update to reflect any changes to that variable. -->
+    
+        <p id="p2" v-on:click.stop="toggleTooltip">{{text_content}}</p>
+    
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.5/vue.min.js"></script>
+    <script>
+    // Creating a new Vue instance and pass in an options object.
+    
+    var demo2 = new Vue({
+    
+        // A DOM element to mount our view model.
+    
+        el: '#main2',
+    
+        // Define properties and give them initial values.
+    
+        data: {
+            show_tooltip: false,
+            text_content: 'Edítame.'
+        },
+    
+        // Functions we will be using.
+    
+        methods: {
+            hideTooltip: function(){
+                // When a model is changed, the view will be automatically updated.
+                this.show_tooltip = false;
+            },
+            toggleTooltip: function(){
+                this.show_tooltip = !this.show_tooltip;
+            }
+        }
+    })  
+    </script>
+    <!--FIN DEL SEGUNDO EJERCICIO-->
+    <hr>
+    <h1>Ejercicio 3</h1>
+    <br>
+     <!--INICIO DEL TERCERA EJERCICIO-->
+     <form id="main3" v-cloak>
+
+        <h1>Services</h1>
+    
+        <ul>
+    
+            <!-- Loop through the services array, assign a click handler, and set or
+                 remove the "active" css class if needed -->
+    
+            <li v-for="service in services" v-on:click="toggleActive(service)" v-bind:class="{ 'active': service.active}">
+    
+                <!-- Display the name and price for every entry in the array .
+                     Vue.js has a built in currency filter for formatting the price -->
+    
+                {{service.name}} <span>{{service.price | currency}}</span>
+    
+            </li>
+        </ul>
+    
+        <div class="total">
+    
+            <!-- Calculate the total price of all chosen services. Format it as currency. -->
+    
+            Total: <span>{{total() | currency}}</span>
+            
+        </div>
+    
+    </form>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.5/vue.min.js"></script>
+    <script>
+    
+    // Define a custom filter called "currency". 
+    Vue.filter('currency', function (value) {
+        return '$' + value.toFixed(2);
+    });
+    
+    var demo = new Vue({
+        el: '#main3',
+        data: {
+            // Define the model properties. The view will loop
+            // through the services array and genreate a li
+            // element for every one of its items.
+            services: [
+                {
+                    name: 'Web Development',
+                    price: 300,
+                    active:true
+                },{
+                    name: 'Design',
+                    price: 400,
+                    active:false
+                },{
+                    name: 'Integration',
+                    price: 250,
+                    active:false
+                },{
+                    name: 'Training',
+                    price: 220,
+                    active:false
+                }
+            ]
+        },
+        methods: {
+            toggleActive: function(s){
+                s.active = !s.active;
+            },
+            total: function(){
+    
+                var total = 0;
+    
+                this.services.forEach(function(s){
+                    if (s.active){
+                        total+= s.price;
+                    }
+                });
+    
+               return total;
+            }
+        }
+    });
+    </script>
+    <hr>
+    <h1>Ejercicio 4</h1>
+    <br>
+    <form id="main4" v-cloak>
+
+        <div class="bar">
+            <!-- Create a binding between the searchString model and the text field -->
+    
+            <input type="text" v-model="searchString" placeholder="Enter your search terms" />
+        </div>
+    
+        <ul>
+            <!-- Render a li element for every entry in the computed filteredArticles array. -->
+                 
+            <li v-for="article in filteredArticles">
+                <a v-bind:href="article.url"><img v-bind:src="article.image" /></a>
+                <p>{{article.title}}</p>
+            </li>
+        </ul>
+    
+    </form>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.5/vue.min.js"></script>
+    <script>
+    
+    var demo4 = new Vue({
+        el: '#main4',
+        data: {
+            searchString: "",
+    
+            // The data model. These items would normally be requested via AJAX,
+            // but are hardcoded here for simplicity.
+    
+            articles: [
+                {
+                    "title": "What You Need To Know About CSS Variables",
+                    "url": "http://tutorialzine.com/2016/03/what-you-need-to-know-about-css-variables/",
+                    "image": "luna-de-pluton.jpg"
+                },
+                {
+                    "title": "Freebie: 4 Great Looking Pricing Tables",
+                    "url": "",
+                    "image": "luna-de-pluton.jpg"
+                },
+                {
+                    "title": "20 Interesting JavaScript and CSS Libraries for February 2016",
+                    "url": "http://tutorialzine.com/2016/02/20-interesting-javascript-and-css-libraries-for-february-2016/",
+                    "image": "luna-de-pluton.jpg"
+                },
+                {
+                    "title": "Quick Tip: The Easiest Way To Make Responsive Headers",
+                    "url": "http://tutorialzine.com/2016/02/quick-tip-easiest-way-to-make-responsive-headers/",
+                    "image": "luna-de-pluton.jpg"
+                },
+                {
+                    "title": "Learn SQL In 20 Minutes",
+                    "url": "http://tutorialzine.com/2016/01/learn-sql-in-20-minutes/",
+                    "image": "luna-de-pluton.jpg"
+                },
+                {
+                    "title": "Creating Your First Desktop App With HTML, JS and Electron",
+                    "url": "http://tutorialzine.com/2015/12/creating-your-first-desktop-app-with-html-js-and-electron/",
+                    "image": "luna-de-pluton.jpg"
+                }
+            ]
+        },
+        computed: {
+            // A computed property that holds only those articles that match the searchString.
+            filteredArticles: function () {
+                var articles_array = this.articles,
+                    searchString = this.searchString;
+    
+                if(!searchString){
+                    return articles_array;
+                }
+                searchString = searchString.trim().toLowerCase();
+    
+                articles_array = articles_array.filter(function(item){
+                    if(item.title.toLowerCase().indexOf(searchString) !== -1){
+                        return item;
+                    }
+                })
+                // Return an array with the filtered data.
+                return articles_array;;
+            }
+        }
+    });
+    </script>
+    <hr>
+    <h1>Ejercicio 5</h1>
+    <br>
+    <form id="main5" v-cloak>
+
+        <div class="bar">
+    
+            <!-- These two buttons switch the layout variable,
+                 which causes the correct UL to be shown. -->
+    
+            <a class="list-icon" v-bind:class="{ 'active': layout == 'list'}" v-on:click="layout = 'list'"></a>
+            <a class="grid-icon" v-bind:class="{ 'active': layout == 'grid'}" v-on:click="layout = 'grid'"></a>
+        </div>
+    
+        <!-- We have two layouts. We choose which one to show depending on the "layout" binding -->
+    
+        <ul v-if="layout == 'grid'" class="grid">
+            <!-- A view with big photos and no text -->
+            <li v-for="a in articles">
+                <a v-bind:href="a.url" target="_blank"><img v-bind:src="a.image.large" /></a>
+            </li>
+        </ul>
+    
+        <ul v-if="layout == 'list'" class="list">
+            <!-- A compact view smaller photos and titles -->
+            <li v-for="a in articles">
+                <a v-bind:href="a.url" target="_blank"><img v-bind:src="a.image.small" /></a>
+                <p>{{a.title}}</p>
+            </li>
+        </ul>
+    
+    </form>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.5/vue.min.js"></script>
+    <script>
+    
+        var demo5 = new Vue({
+            el: '#main5',
+            data: {
+                // The layout mode, possible values are "grid" or "list".
+                layout: 'grid',
+    
+                articles: [{
+                    "title": "What You Need To Know About CSS Variables",
+                    "url": "http://tutorialzine.com/2016/03/what-you-need-to-know-about-css-variables/",
+                    "image": {
+                        "large": "libro2.jpg",
+                        "small": "libro2.jpg"
+                    }
+                },
+                {
+                    "title": "Freebie: 4 Great Looking Pricing Tables",
+                    "url": "http://tutorialzine.com/2016/02/freebie-4-great-looking-pricing-tables/",
+                    "image": {
+                        "large": "luna-de-pluton.jpg",
+                        "small": "luna-de-pluton.jpg"
+                    }
+                },
+                {
+                    "title": "20 Interesting JavaScript and CSS Libraries for February 2016",
+                    "url": "http://tutorialzine.com/2016/02/20-interesting-javascript-and-css-libraries-for-february-2016/",
+                    "image": {
+                        "large": "libro2.jpg",
+                        "small": "libro2.jpg"
+                    }
+                },
+                {
+                    "title": "Quick Tip: The Easiest Way To Make Responsive Headers",
+                    "url": "http://tutorialzine.com/2016/02/quick-tip-easiest-way-to-make-responsive-headers/",
+                    "image": {
+                        "large": "luna-de-pluton.jpg",
+                        "small": "luna-de-pluton.jpg"
+                    }
+                },
+                {
+                    "title": "Learn SQL In 20 Minutes",
+                    "url": "http://tutorialzine.com/2016/01/learn-sql-in-20-minutes/",
+                    "image": {
+                        "large": "libro2.jpg",
+                        "small": "libro2.jpg"
+                    }
+                },
+                {
+                    "title": "Creating Your First Desktop App With HTML, JS and Electron",
+                    "url": "http://tutorialzine.com/2015/12/creating-your-first-desktop-app-with-html-js-and-electron/",
+                    "image": {
+                        "large": "luna-de-pluton.jpg",
+                        "small": "luna-de-pluton.jpg"
+                    }
+                }]
+    
+            }
+        });
+    </script>
+</body>
+</html>
